@@ -1,0 +1,17 @@
+{
+  "name": "miinto/api_client",
+  "description": "Miinto - Api client",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "Miinto\\ApiClient\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.2",
+    "ext-psr": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8"
+  }
+}
