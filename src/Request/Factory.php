@@ -41,7 +41,7 @@ class Factory
             $uri .= '?' . \http_build_query($parameters);
         }
 
-        $request = $this->requestFactory->createRequest('get', $uri);
+        $request = $this->requestFactory->createRequest('GET', $uri);
 
         return $this->populateRequestHeaders($request, $headers);
     }
@@ -55,7 +55,7 @@ class Factory
      */
     public function post(string $uri, array $parameters = [], array $headers = []): RequestInterface
     {
-        $request = $this->requestFactory->createRequest('post', $uri);
+        $request = $this->requestFactory->createRequest('POST', $uri);
 
         return $this->populateRequestHeaders($this->populateRequestBody($request, $parameters), $headers);
     }
@@ -69,7 +69,7 @@ class Factory
      */
     public function patch(string $uri, array $parameters = [], array $headers = []): RequestInterface
     {
-        $request = $this->requestFactory->createRequest('patch', $uri);
+        $request = $this->requestFactory->createRequest('PATCH', $uri);
 
         return $this->populateRequestHeaders($this->populateRequestBody($request, $parameters), $headers);
     }
@@ -83,7 +83,7 @@ class Factory
      */
     public function put(string $uri, array $parameters = [], array $headers = []): RequestInterface
     {
-        $request = $this->requestFactory->createRequest('put', $uri);
+        $request = $this->requestFactory->createRequest('PUT', $uri);
 
         return $this->populateRequestHeaders($this->populateRequestBody($request, $parameters), $headers);
     }
@@ -97,7 +97,7 @@ class Factory
      */
     public function delete(string $uri, array $parameters = [], array $headers = []): RequestInterface
     {
-        $request = $this->requestFactory->createRequest('delete', $uri);
+        $request = $this->requestFactory->createRequest('DELETE', $uri);
 
         return $this->populateRequestHeaders($this->populateRequestBody($request, $parameters), $headers);
     }
@@ -126,6 +126,8 @@ class Factory
      */
     private function populateRequestHeaders(RequestInterface $request, array $headers = []): RequestInterface
     {
+        $request = $request->withHeader('Content-Type', 'application/json');
+
         foreach ($headers as $headerKey => $headerValue) {
             $request = $request->withHeader($headerKey, $headerValue);
         }
