@@ -2,18 +2,18 @@
 
 declare (strict_types=1);
 
-namespace Miinto\ApiClient\Response\Policy;
+namespace Miinto\ApiClient\Response\Decoder;
 
 use \Psr\Http\Message\ResponseInterface;
 
-interface PolicyInterface
+interface DecoderInterface
 {
     /**
-     * Decorate response
+     * Decoder response
      *
      * @param ResponseInterface $response
      *
      * @return mixed
      */
-    public function process(ResponseInterface $response): ResponseInterface;
+    public static function decode(ResponseInterface $response);
 }

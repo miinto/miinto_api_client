@@ -2,7 +2,7 @@
 
 declare (strict_types=1);
 
-namespace Miinto\ApiClient\Response\Policy;
+namespace Miinto\ApiClient\Response\Handler;
 
 class Factory
 {

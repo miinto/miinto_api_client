@@ -2,18 +2,18 @@
 
 declare (strict_types=1);
 
-namespace Miinto\ApiClient\Response\Decorator;
+namespace Miinto\ApiClient\Response\Handler;
 
 use \Psr\Http\Message\ResponseInterface;
 
-interface DecoratorInterface
+interface HandlerInterface
 {
     /**
-     * Decorate response
+     * Handle response
      *
      * @param ResponseInterface $response
      *
      * @return mixed
      */
-    public static function decorate(ResponseInterface $response);
+    public function handle(ResponseInterface $response): ResponseInterface;
 }

@@ -8,13 +8,8 @@ use \Psr\Http\Client\ClientInterface;
 use \Psr\Http\Message\RequestInterface;
 use \Psr\Http\Message\ResponseInterface;
 use \Miinto\ApiClient\Middleware\MiddlewareInterface;
-use \Miinto\ApiClient\Response\Policy\PolicyInterface;
+use \Miinto\ApiClient\Response\Handler\HandlerInterface;
 
-/**
- * Class Client
- *
- * @package Miinto\ApiClient
- */
 class Client implements ClientInterface
 {
     /** @var ClientInterface */
@@ -23,17 +18,17 @@ class Client implements ClientInterface
     /** @var MiddlewareInterface[] */
     protected $requestMiddleware = [];
 
-    /** @var array */
-    protected $responsePolicies = [];
+    /** @var HandlerInterface[] */
+    protected $responseHandlers = [];
 
     /**
      * Client constructor.
      *
      * @param ClientInterface $client
      * @param array $requestMiddleware
-     * @param array $responsePolicies
+     * @param array $responseHandlers
      */
-    public function __construct(ClientInterface $client, array $requestMiddleware = [], array $responsePolicies = [])
+    public function __construct(ClientInterface $client, array $requestMiddleware = [], array $responseHandlers = [])
     {
         $this->client = $client;
 
@@ -41,8 +36,8 @@ class Client implements ClientInterface
             $this->addMiddleware($middleware);
         }
 
-        foreach ($responsePolicies as $policy) {
-            $this->addPolicy($policy);
+        foreach ($responseHandlers as $responseHandler) {
+            $this->addPolicy($responseHandler);
         }
     }
 
@@ -59,13 +54,13 @@ class Client implements ClientInterface
     }
 
     /**
-     * @param PolicyInterface $policy
+     * @param HandlerInterface $responseHandler
      *
      * @return $this
      */
-    private function addPolicy(PolicyInterface $policy): self
+    private function addPolicy(HandlerInterface $responseHandler): self
     {
-        $this->responsePolicies[] = $policy;
+        $this->responseHandlers[] = $responseHandler;
 
         return $this;
     }
@@ -86,8 +81,8 @@ class Client implements ClientInterface
 
         $response = $this->client->sendRequest($request);
 
-        foreach ($this->responsePolicies as $policy) {
-            $response = $policy->process($response);
+        foreach ($this->responseHandlers as $responseHandler) {
+            $response = $responseHandler->handle($response);
         }
 
         return $response;

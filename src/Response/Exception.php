@@ -4,7 +4,7 @@ declare (strict_types=1);
 
 namespace Miinto\ApiClient\Response;
 
-class Exception extends \RuntimeException
+class Exception extends \Exception
 {
     /** @var array */
     protected $errorContainer = [];

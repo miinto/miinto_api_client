@@ -29,77 +29,110 @@ class Factory
     }
 
     /**
+     * Create a request
+     *
+     * @param string $httpMethod
      * @param string $uri
-     * @param array $parameters
+     * @param array $queryParameters
+     * @param array $bodyParameters
      * @param array $headers
      *
      * @return RequestInterface
      */
-    public function get(string $uri, array $parameters = [], array $headers = []): RequestInterface
-    {
-        if (\count($parameters) > 0) {
-            $uri .= '?' . \http_build_query($parameters);
+    public function create(
+        string $httpMethod,
+        string $uri,
+        array $queryParameters = [],
+        array $bodyParameters = [],
+        array $headers = []
+    ): RequestInterface {
+        if (\count($queryParameters) > 0) {
+            $uri .= '?' . \http_build_query($queryParameters);
         }
 
-        $request = $this->requestFactory->createRequest('GET', $uri);
+        $request = $this->requestFactory->createRequest(\mb_strtoupper($httpMethod), $uri);
 
-        return $this->populateRequestHeaders($request, $headers);
+        return $this->populateRequestHeaders($this->populateRequestBody($request, $bodyParameters), $headers);
     }
 
     /**
      * @param string $uri
-     * @param array $parameters
+     * @param array $queryParameters
+     * @param array $bodyParameters
      * @param array $headers
-     *
      * @return RequestInterface
      */
-    public function post(string $uri, array $parameters = [], array $headers = []): RequestInterface
-    {
-        $request = $this->requestFactory->createRequest('POST', $uri);
-
-        return $this->populateRequestHeaders($this->populateRequestBody($request, $parameters), $headers);
+    public function get(
+        string $uri,
+        array $queryParameters = [],
+        array $bodyParameters = [],
+        array $headers = []
+    ): RequestInterface {
+        return $this->create('GET', $uri, $queryParameters, $bodyParameters, $headers);
     }
 
     /**
      * @param string $uri
-     * @param array $parameters
+     * @param array $queryParameters
+     * @param array $bodyParameters
      * @param array $headers
-     *
      * @return RequestInterface
      */
-    public function patch(string $uri, array $parameters = [], array $headers = []): RequestInterface
-    {
-        $request = $this->requestFactory->createRequest('PATCH', $uri);
-
-        return $this->populateRequestHeaders($this->populateRequestBody($request, $parameters), $headers);
+    public function post(
+        string $uri,
+        array $queryParameters = [],
+        array $bodyParameters = [],
+        array $headers = []
+    ): RequestInterface {
+        return $this->create('POST', $uri, $queryParameters, $bodyParameters, $headers);
     }
 
     /**
      * @param string $uri
-     * @param array $parameters
+     * @param array $queryParameters
+     * @param array $bodyParameters
      * @param array $headers
-     *
      * @return RequestInterface
      */
-    public function put(string $uri, array $parameters = [], array $headers = []): RequestInterface
-    {
-        $request = $this->requestFactory->createRequest('PUT', $uri);
-
-        return $this->populateRequestHeaders($this->populateRequestBody($request, $parameters), $headers);
+    public function patch(
+        string $uri,
+        array $queryParameters = [],
+        array $bodyParameters = [],
+        array $headers = []
+    ): RequestInterface {
+        return $this->create('PATCH', $uri, $queryParameters, $bodyParameters, $headers);
     }
 
     /**
      * @param string $uri
-     * @param array $parameters
+     * @param array $queryParameters
+     * @param array $bodyParameters
      * @param array $headers
-     *
      * @return RequestInterface
      */
-    public function delete(string $uri, array $parameters = [], array $headers = []): RequestInterface
-    {
-        $request = $this->requestFactory->createRequest('DELETE', $uri);
+    public function put(
+        string $uri,
+        array $queryParameters = [],
+        array $bodyParameters = [],
+        array $headers = []
+    ): RequestInterface {
+        return $this->create('PUT', $uri, $queryParameters, $bodyParameters, $headers);
+    }
 
-        return $this->populateRequestHeaders($this->populateRequestBody($request, $parameters), $headers);
+    /**
+     * @param string $uri
+     * @param array $queryParameters
+     * @param array $bodyParameters
+     * @param array $headers
+     * @return RequestInterface
+     */
+    public function delete(
+        string $uri,
+        array $queryParameters = [],
+        array $bodyParameters = [],
+        array $headers = []
+    ): RequestInterface {
+        return $this->create('DELETE', $uri, $queryParameters, $bodyParameters, $headers);
     }
 
     /**

@@ -2,23 +2,22 @@
 
 declare (strict_types=1);
 
-namespace Miinto\ApiClient\Response\Decorator;
+namespace Miinto\ApiClient\Response\Decoder;
 
 use \Psr\Http\Message\ResponseInterface;
 use \Miinto\ApiClient\Response\Exception;
 
-class Json implements DecoratorInterface
+class Json implements DecoderInterface
 {
     /**
-     * Decorate response
-     *
      * @param ResponseInterface $response
-     *
      * @return mixed
+     *
+     * @throws Exception
      */
-    public static function decorate(ResponseInterface $response)
+    public static function decode(ResponseInterface $response)
     {
-        $data = \json_decode($response->getBody()->getContents(), true);
+        $data = \json_decode((string) $response->getBody(), true);
         if ($data === null) {
             throw new Exception(
                 [], 'Response body has incorrect json format: ' . $response->getBody()->getContents()

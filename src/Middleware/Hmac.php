@@ -8,10 +8,10 @@ use \Psr\Http\Message\RequestInterface;
 
 class Hmac implements MiddlewareInterface
 {
-    CONST AUTH_TYPE = 'MNT-HMAC-SHA256-1-0';
-    CONST AUTH_CONTROL_VERSION = '1.0';
-    CONST AUTH_CONTROL_FLAVOUR = 'Miinto-Generic';
-    CONST AUTH_ALGORITHM = 'sha256';
+    const AUTH_TYPE = 'MNT-HMAC-SHA256-1-0';
+    const AUTH_CONTROL_VERSION = '1.0';
+    const AUTH_CONTROL_FLAVOUR = 'Miinto-Generic';
+    const AUTH_ALGORITHM = 'sha256';
 
     /** @var string */
     protected $channelId;
@@ -143,11 +143,11 @@ class Hmac implements MiddlewareInterface
     }
 
     /**
-     * @return int
+     * @return string
      */
-    protected function getRandomSeed(): int
+    protected function getRandomSeed(): string
     {
-        return \rand(0, 100);
+        return \uniqid();
     }
 
     /**
