@@ -23,7 +23,7 @@ class Factory
         ClientInterface $client,
         array $requestMiddleware = [],
         array $responseHandlers = []
-    ) {
+    ): Client {
         return new Client($client, $requestMiddleware, $responseHandlers);
     }
 
@@ -44,7 +44,7 @@ class Factory
         ClientInterface $client,
         array $requestMiddleware = [],
         array $responseHandlers = []
-    ) {
+    ): Client {
         return self::createBaseClient(
             $client,
             [

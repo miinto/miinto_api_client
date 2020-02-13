@@ -8,7 +8,7 @@ use \Psr\Http\Message\RequestFactoryInterface;
 use \Psr\Http\Message\StreamFactoryInterface;
 use \Psr\Http\Message\RequestInterface;
 
-class Factory
+class Factory implements FactoryInterface
 {
     /** @var RequestFactoryInterface */
     protected $requestFactory;

@@ -37,7 +37,7 @@ class Client implements ClientInterface
         }
 
         foreach ($responseHandlers as $responseHandler) {
-            $this->addPolicy($responseHandler);
+            $this->addResponseHandler($responseHandler);
         }
     }
 
@@ -58,7 +58,7 @@ class Client implements ClientInterface
      *
      * @return $this
      */
-    private function addPolicy(HandlerInterface $responseHandler): self
+    private function addResponseHandler(HandlerInterface $responseHandler): self
     {
         $this->responseHandlers[] = $responseHandler;
 

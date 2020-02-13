@@ -17,7 +17,7 @@ class Exception extends \Exception
      * @param int $code
      * @param \Throwable|null $previous
      */
-    public function __construct(array $errorContainer, $message = "", $code = 0, \Throwable $previous = null)
+    public function __construct(array $errorContainer = [], $message = "", $code = 0, \Throwable $previous = null)
     {
         $this->errorContainer = $errorContainer;
         parent::__construct($message, $code, $previous);

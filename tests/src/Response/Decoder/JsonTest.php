@@ -15,6 +15,15 @@ final class JsonTest extends TestCase
     }
 
     /**
+     * @dataProvider data2
+     */
+    public function testBaseDecoratorWithError($response): void
+    {
+        $this->expectException(\Miinto\ApiClient\Response\Exception::class);
+        \Miinto\ApiClient\Response\Decoder\Json::decode($response);
+    }
+
+    /**
      * @return array
      */
     public function data()
@@ -25,6 +34,19 @@ final class JsonTest extends TestCase
 
         return [
             [$response->withBody($stream), $data]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function data2()
+    {
+        $response = \Http\Discovery\Psr17FactoryDiscovery::findResponseFactory()->createResponse(200);
+        $stream = (\Http\Discovery\Psr17FactoryDiscovery::findStreamFactory())->createStream("1;4;5;6;7");
+
+        return [
+            [$response->withBody($stream)]
         ];
     }
 }
