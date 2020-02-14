@@ -1,6 +1,6 @@
 #Miinto Api Client
 
-The Miinto Api client is a library that facilitates communication with the microservicies API interface in Miinto.
+The Miinto Api client is a library that facilitates communication with the microservicies API in Miinto.
 This client implements `\Psr\Http\Client\ClientInterface` so  it's complied with the PSR18 standard.
 
 We can define few class types:
@@ -24,14 +24,8 @@ Using `\Miinto\ApiClient\Factory` you can create two types of miinto clients:
 be automatically sign using HMAC Miinto headers. When response code will be < 200 or >= 400, the Response Exception will 
 be thrown.   
 
-**CAUTION:** To create any of client you should inject the http client with PSR18 standard. The recommendation is to 
-require two packages:
-
-```json
-  "nyholm/psr7": "^1.2",
-  "php-http/curl-client": "^2.0"
-```
-
+**CAUTION:** To create any of client you should inject the http client with PSR18 standard. The recommendation is to add
+to composer.json this package `"php-http/curl-client": "^2.0"`
 
 Creating a basic client:
 ```php
@@ -59,15 +53,15 @@ $miintoClient = Factory::createClient($channelId, $token, $httpPsr18Client);
 
 ## 2.2 Creating new request
 
-For creating a new request you can use the `Miinto\ApiClient\Request\Factory` class; This class implements
+For creating a new request you can use the `Miinto\ApiClient\Request\Factory` class. 
 
+Create a request
 ```php
-use \Miinto\ApiClient\Request\Factory;
-
-$request = Factory::create($httpMethod, $uri, $queryParameters, $bodyParameters, $requestHeaders);
+\Miinto\ApiClient\Request\Factory::create($httpMethod, $uri, $queryParameters = [], $bodyParameters = [], $requestHeaders = []);
 ```
 
 An example:
+
 ```php
 use \Miinto\ApiClient\Request\Factory;
 
@@ -75,7 +69,7 @@ $request = Factory::create(
     "PATCH", 
     "https://api-service.miinto.net", 
     [
-        'locationId' => 'M!is-1203-22-22'
+        'locationId' => 'M!i!s-1203-22-22'
     ], 
     [
         'stock' => 100
@@ -90,7 +84,7 @@ or
 $request = Factory::patch(
     "https://api-service.miinto.net", 
     [
-        'locationId' => 'M!is-1203-22-22'
+        'locationId' => 'M!i!s-1203-22-22'
     ], 
     [
         'stock' => 100
@@ -101,47 +95,24 @@ $request = Factory::patch(
 );
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-## 2.1 Usage
+## 2.3 Real life example
 ```php
-
 use \Http\Discovery\HttpClientDiscovery;
 use \Http\Discovery\Psr17FactoryDiscovery;
+use \Miinto\ApiClient\Request\Factory as RequestFactory;
+use \Miinto\ApiClient\Factory as ClientFactory;
+use \Miinto\ApiClient\Response\Decoder\Json as JsonDecoder;
 
 $httpClient =  HttpClientDiscovery::find();
 $requestFactory =  Psr17FactoryDiscovery::findRequestFactory();
 $streamFactory =  Psr17FactoryDiscovery::findStreamFactory();
+$requestFactory = new RequestFactory($requestFactory, $streamFactory);
 
-$requestFactory = new \Miinto\ApiClient\Request\Factory($requestFactory, $streamFactory);
-
-$urlToApi = 'https://api-pms.miinto.net/status';
-$request = $requestFactory->get($urlToApi);
-
-
-$client = new \Miinto\ApiClient\Client(
-    $httpClient,
-    [
-        \Miinto\ApiClient\Middleware\Factory::createHmac('asdasd', 'asdasdasd')
-    ],
-    [
-        \Miinto\ApiClient\Response\Policy\Factory::createError()
-    ]
-);
-
+$request = $requestFactory->get('https://api-pms.miinto.net/status');
+$client = ClientFactory::createClient($httpClient);
+  
 $response = $httpClient->sendRequest($request);
-$result = \Miinto\ApiClient\Response\Decorator\Json::decode($response);
 
-var_dump($result);exit;
-
+var_dump(JsonDecoder::decode($response));exit;
 
 ```
