@@ -1,4 +1,4 @@
-#Miinto Api Client
+# Miinto Api Client
 
 The Miinto Api client is a library that facilitates communication with the microservicies API in Miinto.
 This client implements `\Psr\Http\Client\ClientInterface` so  it's complied with the PSR18 standard.
@@ -72,14 +72,19 @@ $request = Factory::create(
         'locationId' => 'M!i!s-1203-22-22'
     ], 
     [
-        'stock' => 100
+        'name' => 'Adidas store'
     ], 
     [
         'Cache-Control' => 'no-cache'
     ]
 );
 
+```
+
 or
+
+```php
+use \Miinto\ApiClient\Request\Factory;
 
 $request = Factory::patch(
     "https://api-service.miinto.net", 
@@ -87,7 +92,7 @@ $request = Factory::patch(
         'locationId' => 'M!i!s-1203-22-22'
     ], 
     [
-        'stock' => 100
+        'name' => 'Adidas store'
     ], 
     [
         'Cache-Control' => 'no-cache'
@@ -102,17 +107,35 @@ use \Http\Discovery\Psr17FactoryDiscovery;
 use \Miinto\ApiClient\Request\Factory as RequestFactory;
 use \Miinto\ApiClient\Factory as ClientFactory;
 use \Miinto\ApiClient\Response\Decoder\Json as JsonDecoder;
-
-$httpClient =  HttpClientDiscovery::find();
 $requestFactory =  Psr17FactoryDiscovery::findRequestFactory();
 $streamFactory =  Psr17FactoryDiscovery::findStreamFactory();
 $requestFactory = new RequestFactory($requestFactory, $streamFactory);
 
-$request = $requestFactory->get('https://api-pms.miinto.net/status');
+$httpClient =  HttpClientDiscovery::find();
 $client = ClientFactory::createClient($httpClient);
-  
+
+$request = $requestFactory->get('https://api-pms.miinto.net/status');
 $response = $httpClient->sendRequest($request);
 
-var_dump(JsonDecoder::decode($response));exit;
+var_dump(JsonDecoder::decode($response));
+
+/**
+array(2) {
+  ["meta"]=>
+  array(2) {
+    ["status"]=>
+    string(7) "success"
+    ["version"]=>
+    string(3) "1.0"
+  }
+  ["data"]=>
+  array(2) {
+    ["name"]=>
+    string(30) "product_management_service-api"
+    ["status"]=>
+    string(2) "OK"
+  }
+}
+*/
 
 ```
