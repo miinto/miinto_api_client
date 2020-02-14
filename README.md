@@ -3,7 +3,7 @@
 The Miinto Api client is a library that facilitates communication with the microservicies API in Miinto.
 This client implements `\Psr\Http\Client\ClientInterface` so  it's complied with the PSR18 standard.
 
-We can define few class types:
+We can define several types of classes:
 - Middleware - They are used before sending a request. You can modify requests header and body (e.g. Hmac signature)
 - ResponseHandler - They are used after sending a request and base on response object. You can modify a response object. (e.g. Error response behaviour)
 - Decoder - You can decode a response body content. (e.g. Json decoding)
@@ -20,7 +20,7 @@ composer install miinto/api_client
 
 Using `\Miinto\ApiClient\Factory` you can create two types of miinto clients:
 - basic miinto client - you can define middleware and response handlers by your own.
-- miinto client - here you have already set up the HMAC Middleware and the HandlerError. It means that all requests will
+- miinto client - the HMAC Middleware and the HandlerError are already set up. It means that all requests will
 be automatically sign using HMAC Miinto headers. When response code will be < 200 or >= 400, the Response Exception will 
 be thrown.   
 
@@ -102,11 +102,13 @@ $request = Factory::patch(
 
 ## 2.3 Real life example
 ```php
+
 use \Http\Discovery\HttpClientDiscovery;
 use \Http\Discovery\Psr17FactoryDiscovery;
 use \Miinto\ApiClient\Request\Factory as RequestFactory;
 use \Miinto\ApiClient\Factory as ClientFactory;
 use \Miinto\ApiClient\Response\Decoder\Json as JsonDecoder;
+
 $requestFactory =  Psr17FactoryDiscovery::findRequestFactory();
 $streamFactory =  Psr17FactoryDiscovery::findStreamFactory();
 $requestFactory = new RequestFactory($requestFactory, $streamFactory);
