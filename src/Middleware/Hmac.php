@@ -111,7 +111,7 @@ class Hmac implements MiddlewareInterface
     {
         return \hash(
             static::AUTH_ALGORITHM,
-            $request->getBody()->getContents()
+            (string) $request->getBody()
         );
     }
 
