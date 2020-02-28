@@ -25,7 +25,7 @@ class Error implements HandlerInterface
                     'body' => $response->getBody()->getContents(),
                     'headers' => $response->getHeaders()
                 ],
-                'Invalid http response: ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(),
+                'Invalid http response: ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase()
             );
         }
 
