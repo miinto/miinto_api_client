@@ -9,7 +9,7 @@
   },
   "require": {
     "php": "^7.2",
-    "nyholm/psr7": "1.2.1",
+    "nyholm/psr7": "1.2.0",
     "php-http/curl-client": "2.0.0"
   },
   "require-dev": {
