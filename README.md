@@ -1,6 +1,6 @@
 # Miinto Api Client
 
-The Miinto Api client is a library that facilitates communication with the microservicies API in Miinto.
+The Miinto Api client is a library that facilitates communication with API microservicies API in Miinto.
 This client implements `\Psr\Http\Client\ClientInterface` so  it's complied with the PSR18 standard.
 
 We can define several types of classes:
@@ -99,6 +99,9 @@ $request = Factory::patch(
     ]
 );
 ```
+
+**CAUTION:** Remember than parameters in URI are automatically decoded 
+
 
 ## 2.3 Real life example
 ```php
