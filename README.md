@@ -100,7 +100,7 @@ $request = Factory::patch(
 );
 ```
 
-**CAUTION:** Remember than parameters in URI are automatically decoded 
+**CAUTION:** Remember than parameters in URI are automatically encoded 
 
 
 ## 2.3 Real life example
