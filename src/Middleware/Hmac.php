@@ -73,9 +73,9 @@ class Hmac implements MiddlewareInterface
             \sprintf(
                 "%s\n%s\n%s\n%s",
                 $request->getMethod(),
-                $request->getUri()->getHost(),
-                $request->getUri()->getPath(),
-                $request->getUri()->getQuery()
+                \urldecode($request->getUri()->getHost()),
+                \urldecode($request->getUri()->getPath()),
+                \urldecode($request->getUri()->getQuery())
             )
         );
     }
